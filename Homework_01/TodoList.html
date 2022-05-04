@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+</head>
+<body>
+    <div class="headContainer">
+        <div class="titleContainer">
+            <h1 class="titleContext">TODO it!</h1>
+        </div>
+        <div class="btnContainer">
+            <input class="btnInsert" type="text"/>
+            <div class="btnContext">
+                <p class="btnContextText">
+                +
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="contentsContainer">
+        <ul class="ContentsListContainer">
+        </ul>
+     
+    </div>
+    <script>
+        const listArr=[];
+        
+        const registerBtn = document.querySelector('.btnContext');
+        const totalList = document.querySelector('.ContentsListContainer')
+        let countNumber=0;
+            
+
+        registerBtn.addEventListener('click',addList);
+        function addList(){
+
+            const InsertValue = document.querySelector('.btnInsert').value;
+            const Inserttext = document.createTextNode(InsertValue);
+
+       
+
+            const removeBtn = document.createTextNode('삭제');
+            const removeBtnDiv=document.createElement('div');
+            const newList = document.createElement('li');
+            const liContextDiv = document.createElement('div');
+
+            liContextDiv.appendChild(Inserttext);
+            removeBtnDiv.appendChild(removeBtn);//삭제
+        
+            newList.appendChild(liContextDiv);
+            newList.appendChild(removeBtnDiv)
+
+            totalList.appendChild(newList);
+
+            liContextDiv.className="liContextDiv";
+            removeBtnDiv.className="removeBtnDiv";
+            
+            //const listCount = totalList.childElementCount;
+            sessionStorage.setItem(countNumber,InsertValue);
+            listArr.push(countNumber++);
+            console.log(sessionStorage.getItem(0));
+        }
+        
+        totalList.addEventListener('click',removeList)
+        
+        function removeList(){
+            const bob=event.target.parentNode;
+            const ghostbob= bob.parentNode;
+
+            if(event.target.className=='removeBtnDiv')
+                ghostbob.removeChild(bob);
+            else if(event.target.className=='liContextDiv')
+                {
+                if(event.target.style.textDecoration=="line-through")
+                    event.target.style.textDecoration="none";
+                else
+                    event.target.style.textDecoration="line-through";
+                }
+       
+
+        }    
+        
+    </script>
+</body>
+<style>
+    .headContainer{
+        width: 100%;
+        height: 150px;
+        background-color:blue;
+    }
+    .titleContainer{
+        margin: auto;
+        width: 200px;
+        height: 100px;
+        background-color: aqua;
+    }
+    .titleContext{
+        margin: auto;
+        width: 80%;
+        height: 100px;
+    }
+    .btnContainer{
+        height: 50px;
+        background-color: blueviolet;
+    }
+    .btnInsert{
+        width: 93%;
+        height: 50px;
+        margin-left: 1%;
+        float: left;
+    }
+    .btnContext{
+        width: 5%;
+        height: 100%;
+        font-size: 15px;
+        background-color: rgb(179, 109, 19);
+        float: left;
+    }
+    .btnContextText{
+        float: left;
+        height: auto;
+        width: 100%;
+        background-color: brown;
+        text-align: center;
+    }
+    .contentsContainer{
+        width: 100%;
+        background-color: bisque;
+    }
+    .ContentsListContainer{
+        width: 90%;
+        margin-left: 5%;
+        background-color: rgb(18, 75, 124);
+    }
+    .aa{
+        width: 50px;
+        height: 50px;
+        background-color: chocolate;
+    }
+ 
+</style>
+</html>
