@@ -24,19 +24,54 @@
     </div>
     <script>
         const listArr=[];
-        
+        let keys = Object.keys(localStorage);
+        let i = keys.length;
         const registerBtn = document.querySelector('.btnContext');
         const totalList = document.querySelector('.ContentsListContainer')
-        let countNumber=0;
-            
+        let countNumber=1;
 
+        if(localStorage.getItem(0)===null || localStorage.getItem(0) ===undefined)
+            countNumber=1;
+        else 
+            countNumber=localStorage.getItem(0);
+       //localStorage.clear();
+        
+        console.log("마지막값"+Object.keys(localStorage));
+
+            for(let j=1; j<i; j++) //0인덱스는 최대값을 넣을 것이기 떄문에 사용하지 않는다.
+        {   
+            console.log(i+"\n"+j);
+        
+            const Inserttext = document.createTextNode(localStorage.getItem(keys[j]));
+            const removeBtn = document.createTextNode('삭제');
+            const removeBtnDiv=document.createElement('div');
+            const newList = document.createElement('li');
+            const liContextDiv = document.createElement('div');
+
+            liContextDiv.appendChild(Inserttext);
+            removeBtnDiv.appendChild(removeBtn);//삭제
+        
+            newList.appendChild(liContextDiv);
+            newList.appendChild(removeBtnDiv)
+
+            totalList.appendChild(newList);
+
+            liContextDiv.className="liContextDiv";
+            removeBtnDiv.className="removeBtnDiv";
+            
+              
+        }
+       
+       //문제: 길이에 따라서 조정 필요함 순서가 보장된다는 전제하에 마지막 인덱스 값을 넣어준다.->순서보장안됨// 특정 인덱스에 최대 값을 저장한다. =>해결
+
+        console.log("확인"+localStorage.getItem(0));
+        console.log("확인함"+countNumber);
         registerBtn.addEventListener('click',addList);
         function addList(){
 
+     
             const InsertValue = document.querySelector('.btnInsert').value;
             const Inserttext = document.createTextNode(InsertValue);
-
-       
 
             const removeBtn = document.createTextNode('삭제');
             const removeBtnDiv=document.createElement('div');
@@ -54,10 +89,17 @@
             liContextDiv.className="liContextDiv";
             removeBtnDiv.className="removeBtnDiv";
             
+            liContextDiv.id=countNumber;
+            localStorage.setItem(countNumber++,InsertValue);
+            localStorage.setItem(0,countNumber);
+            console.log("ddd"+localStorage.getItem(0));
             //const listCount = totalList.childElementCount;
-            sessionStorage.setItem(countNumber,InsertValue);
-            listArr.push(countNumber++);
-            console.log(sessionStorage.getItem(0));
+            //sessionStorage.setItem(countNumber,InsertValue);
+            //listArr.push(countNumber++);
+            //console.log(sessionStorage.getItem(0));
+
+
+
         }
         
         totalList.addEventListener('click',removeList)
@@ -65,9 +107,21 @@
         function removeList(){
             const bob=event.target.parentNode;
             const ghostbob= bob.parentNode;
-
+            const deletsNode =event.target.previousSibling.childNodes[0].data;
+            console.log("node"+typeof deletsNode);
+            console.log("node"+typeof keys[0]);
             if(event.target.className=='removeBtnDiv')
-                ghostbob.removeChild(bob);
+                {   for(let j=1; j<i; j++)
+                    {
+                        console.log(localStorage.getItem(keys[j])===deletsNode);
+                        if(localStorage.getItem(keys[j])===deletsNode) //문제: 똑같은 문자열이면 다 같이 지워짐......
+                        localStorage.removeItem(keys[j]);
+
+                    }
+                    ghostbob.removeChild(bob);
+                    
+                
+                }
             else if(event.target.className=='liContextDiv')
                 {
                 if(event.target.style.textDecoration=="line-through")
