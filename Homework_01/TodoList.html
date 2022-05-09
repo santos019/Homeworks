@@ -9,63 +9,72 @@
             <h1 class="titleContext">TODO it!</h1>
         </div>
         <div class="btnContainer">
-            <input class="btnInsert" type="text"/>
+            <input class="btnInsert" type="text" style="border:none;"/>
             <div class="btnContext">
-                <p class="btnContextText">
+                <div class="btnContextText">
                 +
-                </p>
+                </div>
             </div>
         </div>
     </div>
     <div class="contentsContainer">
         <ul class="ContentsListContainer">
         </ul>
-     
     </div>
     <script>
-        const listArr=[];
-        let keys = Object.keys(localStorage);
-        let i = keys.length;
+
+        const output = localStorage.getItem("list");
+        let loadingArr = JSON.parse(output);
         const registerBtn = document.querySelector('.btnContext');
         const totalList = document.querySelector('.ContentsListContainer')
-        let countNumber=1;
+        let countNumber=0;
 
-        if(localStorage.getItem(0)===null || localStorage.getItem(0) ===undefined)
-            countNumber=1;
-        else 
-            countNumber=localStorage.getItem(0);
-       //localStorage.clear();
-        
-        console.log("마지막값"+Object.keys(localStorage));
-
-            for(let j=1; j<i; j++) //0인덱스는 최대값을 넣을 것이기 떄문에 사용하지 않는다.
-        {   
-            console.log(i+"\n"+j);
-        
-            const Inserttext = document.createTextNode(localStorage.getItem(keys[j]));
-            const removeBtn = document.createTextNode('삭제');
-            const removeBtnDiv=document.createElement('div');
-            const newList = document.createElement('li');
-            const liContextDiv = document.createElement('div');
-
-            liContextDiv.appendChild(Inserttext);
-            removeBtnDiv.appendChild(removeBtn);//삭제
-        
-            newList.appendChild(liContextDiv);
-            newList.appendChild(removeBtnDiv)
-
-            totalList.appendChild(newList);
-
-            liContextDiv.className="liContextDiv";
-            removeBtnDiv.className="removeBtnDiv";
+        console.log("check"+loadingArr);
+        if(loadingArr===null) loadingArr=[];
+        if(localStorage.getItem("list")!==null) //비어있지 않으면 그립니다.
+        {
             
-              
-        }
-       
-       //문제: 길이에 따라서 조정 필요함 순서가 보장된다는 전제하에 마지막 인덱스 값을 넣어준다.->순서보장안됨// 특정 인덱스에 최대 값을 저장한다. =>해결
 
-        console.log("확인"+localStorage.getItem(0));
-        console.log("확인함"+countNumber);
+            for (let i in loadingArr)
+            {
+                const Inserttext = document.createTextNode(loadingArr[i]);
+                const removeBtn = document.createTextNode('삭제');
+                const removeBtnDiv=document.createElement('div');
+                const newList = document.createElement('li');
+                const liContextDiv = document.createElement('div');
+                const chkBox = document.createElement('input');
+                chkBox.id="check"+countNumber;
+                chkBox.type="checkbox";
+                chkBox.style.cssText = 'font-size: 25px;  width:30px; height:30px; position:absoulte; margin-left: -25px; display:none';
+                const chkLabel = document.createElement('label');
+                chkLabel.for="check"+countNumber;
+                chkLabel.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-unchecked-checkbox-100.png");' ;
+             
+                
+
+
+                liContextDiv.appendChild(Inserttext);
+                removeBtnDiv.appendChild(removeBtn);//삭제
+                newList.appendChild(chkBox);
+                newList.appendChild(chkLabel);
+                newList.appendChild(liContextDiv);
+                newList.appendChild(removeBtnDiv)
+
+                totalList.appendChild(newList);
+                liContextDiv.className="liContextDiv";
+                removeBtnDiv.className="removeBtnDiv";
+                chkBox.className="checkDiv";
+                chkLabel.className="checkDiv2";
+                liContextDiv.id=countNumber++;
+
+
+            }
+        }
+        
+
+       
+       //문제: 길이에 따라서 조정 필요함 순서가 보장된다는 전제하에 마지막 인덱스 값을 넣어준다.->순서보장안됨// 특정 인덱스에 최대 값을 저장한다. => value에 배열로 저장하면 된다.
+
         registerBtn.addEventListener('click',addList);
         function addList(){
 
@@ -77,10 +86,19 @@
             const removeBtnDiv=document.createElement('div');
             const newList = document.createElement('li');
             const liContextDiv = document.createElement('div');
-
+            const chkBox = document.createElement('input');
+            chkBox.id="check"+countNumber;
+            chkBox.type="checkbox";
+            chkBox.style.cssText = 'content:✔; font-size: 25px; display: none; width:30px; height:30px; position:relative;';
+            const chkLabel = document.createElement('label');
+            chkLabel.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-unchecked-checkbox-100.png");' ;
+             
+            chkLabel.for="check"+countNumber;
+            
             liContextDiv.appendChild(Inserttext);
             removeBtnDiv.appendChild(removeBtn);//삭제
-        
+            newList.appendChild(chkBox);
+            newList.appendChild(chkLabel);
             newList.appendChild(liContextDiv);
             newList.appendChild(removeBtnDiv)
 
@@ -88,15 +106,13 @@
 
             liContextDiv.className="liContextDiv";
             removeBtnDiv.className="removeBtnDiv";
-            
-            liContextDiv.id=countNumber;
-            localStorage.setItem(countNumber++,InsertValue);
-            localStorage.setItem(0,countNumber);
-            console.log("ddd"+localStorage.getItem(0));
-            //const listCount = totalList.childElementCount;
-            //sessionStorage.setItem(countNumber,InsertValue);
-            //listArr.push(countNumber++);
-            //console.log(sessionStorage.getItem(0));
+            chkBox.className="checkDiv";
+            chkLabel.className="checkDiv2";
+            liContextDiv.id=countNumber++;
+
+            loadingArr.push(InsertValue);
+            localStorage.setItem("list",JSON.stringify(loadingArr));
+ 
 
 
 
@@ -107,28 +123,48 @@
         function removeList(){
             const bob=event.target.parentNode;
             const ghostbob= bob.parentNode;
-            const deletsNode =event.target.previousSibling.childNodes[0].data;
-            console.log("node"+typeof deletsNode);
-            console.log("node"+typeof keys[0]);
+            //const deletsNode =event.target.previousSibling.childNodes[0].data; //노드의 텍스트 내용
+          
+     
+            
             if(event.target.className=='removeBtnDiv')
-                {   for(let j=1; j<i; j++)
-                    {
-                        console.log(localStorage.getItem(keys[j])===deletsNode);
-                        if(localStorage.getItem(keys[j])===deletsNode) //문제: 똑같은 문자열이면 다 같이 지워짐......
-                        localStorage.removeItem(keys[j]);
-
-                    }
+                {                 
+                    const deleteIndex=event.target.previousSibling.id;
+                    loadingArr.splice(deleteIndex,1);                         
+                    localStorage.setItem("list",JSON.stringify(loadingArr));
+                    //console.log(loadingArr);
                     ghostbob.removeChild(bob);
                     
                 
                 }
             else if(event.target.className=='liContextDiv')
                 {
-                if(event.target.style.textDecoration=="line-through")
-                    event.target.style.textDecoration="none";
-                else
-                    event.target.style.textDecoration="line-through";
+                    let labelDiv = event.target.previousSibling;
+                    
+                    if(event.target.style.textDecoration=="line-through")
+                    {   event.target.style.textDecoration="none";
+                        labelDiv.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-unchecked-checkbox-100.png");' ;
+                    }
+                    else
+                    {   event.target.style.textDecoration="line-through";
+                        labelDiv.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-tick-box-100.png");' ;
+                    }
                 }
+            else if(event.target.className=='checkDiv2')
+            {   let textDiv = event.target.nextSibling;
+                console.log("ininin");
+                console.log(event.target.previousSibling);
+                if(textDiv.style.textDecoration=="none") //언체크
+                {   console.log("1");
+                    event.target.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-tick-box-100.png");' ;
+                    textDiv.style.textDecoration="line-through";
+                }
+                else{console.log("2");
+                    event.target.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-unchecked-checkbox-100.png");' ;
+                    textDiv.style.textDecoration="none";
+                }
+            }
+            
        
 
         }    
@@ -139,51 +175,72 @@
     .headContainer{
         width: 100%;
         height: 150px;
-        background-color:blue;
+        background-color:rgb(255, 255, 255);
+       
     }
     .titleContainer{
         margin: auto;
-        width: 200px;
+        width: 300px;
         height: 100px;
-        background-color: aqua;
+       
+        display: flex;
     }
     .titleContext{
-        margin: auto;
+        text-align: center;
         width: 80%;
-        height: 100px;
+        margin: auto;
+        font-size: 50px;
+        border-radius: 5%;
+        box-shadow: 5px 5px 5px 5px gray;
+      
     }
     .btnContainer{
         height: 50px;
-        background-color: blueviolet;
+        width: 80%;
+        margin-left: 13%;
+        
     }
     .btnInsert{
-        width: 93%;
-        height: 50px;
-        margin-left: 1%;
+        width: 70%;
+        height: 45px;
+        margin-left: 10%;
+        margin-top: 0.1%;
         float: left;
+        box-shadow: 5px 5px 5px 5px gray;
     }
     .btnContext{
         width: 5%;
         height: 100%;
-        font-size: 15px;
-        background-color: rgb(179, 109, 19);
-        float: left;
+        background-color: rgb(17, 47, 114);
+        border-radius:0% 18% 18% 0%;
+        display: inline-block;
+        position: relative;
+        box-shadow: 5px 5px 5px 5px gray;
+       
     }
     .btnContextText{
-        float: left;
-        height: auto;
-        width: 100%;
-        background-color: brown;
-        text-align: center;
+     
+        position: absolute;
+        top: 45%;
+        margin-left: 32%;
+        transform: translateY(-50%);
+        font-size: 35px;
+        font-weight: 700;
+        color: white;
+        
+        
+        
     }
     .contentsContainer{
-        width: 100%;
-        background-color: bisque;
+        width: 70%;
+        margin: auto;
     }
     .ContentsListContainer{
         width: 90%;
         margin-left: 5%;
-        background-color: rgb(18, 75, 124);
+        box-shadow: 5px 5px 5px 5px gray;
+        border-radius: 30px;
+        list-style: none;
     }
     .aa{
         width: 50px;
