@@ -1,7 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-  
+    <style>
+        .headContainer{
+            width: 100%;
+            height: 150px;
+            background-color:rgb(255, 255, 255);
+           
+        }
+        .titleContainer{
+            margin: auto;
+            width: 300px;
+            height: 100px;
+           
+            display: flex;
+        }
+        .titleContext{
+            text-align: center;
+            width: 80%;
+            margin: auto;
+            font-size: 50px;
+            border-radius: 5%;
+            box-shadow: 5px 5px 5px 5px gray;
+          
+        }
+        .btnContainer{
+            height: 50px;
+            width: 80%;
+            margin-left: 13%;
+            
+        }
+        .btnInsert{
+            width: 70%;
+            height: 45px;
+            margin-left: 10%;
+            margin-top: 0.1%;
+            float: left;
+            box-shadow: 5px 5px 5px 5px gray;
+        }
+        .btnContext{
+            width: 5%;
+            height: 100%;
+            background-color: rgb(17, 47, 114);
+            border-radius:0% 18% 18% 0%;
+            display: inline-block;
+            position: relative;
+            box-shadow: 5px 5px 5px 5px gray;
+           
+        }
+        .btnContextText{
+         
+            position: absolute;
+            top: 45%;
+            margin-left: 32%;
+            transform: translateY(-50%);
+            font-size: 35px;
+            font-weight: 700;
+            color: white;
+            
+            
+            
+        }
+        .contentsContainer{
+            width: 70%;
+            margin: auto;
+        }
+        .ContentsListContainer{
+            width: 90%;
+            margin-left: 5%;
+            box-shadow: 5px 5px 5px 5px gray;
+            border-radius: 30px;
+            list-style: none;
+        }
+        .TrueBox{ 
+            display: inline-block; 
+            background-size: 30px; 
+            width:30px; 
+            float: left; 
+            height:30px; 
+            background-image:url("./Icon/icons8-tick-box-100.png");
+        }
+        .FalseBox{
+            display: inline-block; 
+            background-size: 30px; 
+            width:30px; 
+            float: left; 
+            height:30px; 
+            background-image:url("./Icon/icons8-unchecked-checkbox-100.png");
+        }
+    </style>
 </head>
 <body>
     <div class="headContainer">
@@ -45,10 +132,13 @@
                 const chkBox = document.createElement('input');
                 chkBox.id="check"+countNumber;
                 chkBox.type="checkbox";
+                //chkBox.value="checkValue";
+                
                 chkBox.style.cssText = 'font-size: 25px;  width:30px; height:30px; position:absoulte; margin-left: -25px; display:none';
                 const chkLabel = document.createElement('label');
-                chkLabel.for="check"+countNumber;
-                chkLabel.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-unchecked-checkbox-100.png");' ;
+                
+                
+                //chkLabel.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-unchecked-checkbox-100.png");' ;
              
                 
 
@@ -64,7 +154,9 @@
                 liContextDiv.className="liContextDiv";
                 removeBtnDiv.className="removeBtnDiv";
                 chkBox.className="checkDiv";
-                chkLabel.className="checkDiv2";
+                chkLabel.className="checkLabel FalseBox";
+                chkLabel.for="check"+countNumber;
+                //chkLabel.classList.add('FalseBox');
                 liContextDiv.id=countNumber++;
 
 
@@ -89,9 +181,9 @@
             const chkBox = document.createElement('input');
             chkBox.id="check"+countNumber;
             chkBox.type="checkbox";
-            chkBox.style.cssText = 'content:✔; font-size: 25px; display: none; width:30px; height:30px; position:relative;';
+            chkBox.style.cssText = 'font-size: 25px; display: none; width:30px; height:30px; position:relative;';
             const chkLabel = document.createElement('label');
-            chkLabel.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-unchecked-checkbox-100.png");' ;
+            //chkLabel.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-unchecked-checkbox-100.png");' ;
              
             chkLabel.for="check"+countNumber;
             
@@ -107,7 +199,7 @@
             liContextDiv.className="liContextDiv";
             removeBtnDiv.className="removeBtnDiv";
             chkBox.className="checkDiv";
-            chkLabel.className="checkDiv2";
+            chkLabel.className="checkLabel FalseBox";
             liContextDiv.id=countNumber++;
 
             loadingArr.push(InsertValue);
@@ -150,17 +242,25 @@
                         labelDiv.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-tick-box-100.png");' ;
                     }
                 }
-            else if(event.target.className=='checkDiv2')
-            {   let textDiv = event.target.nextSibling;
-                console.log("ininin");
-                console.log(event.target.previousSibling);
-                if(textDiv.style.textDecoration=="none") //언체크
-                {   console.log("1");
-                    event.target.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-tick-box-100.png");' ;
+            else if(event.target.classList.contains('checkLabel'))
+            {   
+                let textDiv = event.target.nextSibling;
+                let checkValue =event.target.previousSibling.checked;
+                console.log(event.target.previousSibling.checked);
+                if(checkValue==false) //언체크
+                {   console.log("log");
+                    //checkValue=true;  
+                    event.target.classList.replace('FalseBox','TrueBox');
+                    event.target.previousSibling.checked=true;
+                    console.log("log2");
+                    //event.target.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-tick-box-100.png");' ;
                     textDiv.style.textDecoration="line-through";
                 }
-                else{console.log("2");
-                    event.target.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-unchecked-checkbox-100.png");' ;
+                else{ //체크
+                    //checkValue=false;    
+                    event.target.previousSibling.checked=false;
+                    event.target.classList.replace('TrueBox','FalseBox');
+                    //event.target.style.cssText='display: inline-block; background-size: 30px; width:30px; float: left; height:30px; background-image:url("./Icon/icons8-unchecked-checkbox-100.png");' ;
                     textDiv.style.textDecoration="none";
                 }
             }
@@ -171,82 +271,4 @@
         
     </script>
 </body>
-<style>
-    .headContainer{
-        width: 100%;
-        height: 150px;
-        background-color:rgb(255, 255, 255);
-       
-    }
-    .titleContainer{
-        margin: auto;
-        width: 300px;
-        height: 100px;
-       
-        display: flex;
-    }
-    .titleContext{
-        text-align: center;
-        width: 80%;
-        margin: auto;
-        font-size: 50px;
-        border-radius: 5%;
-        box-shadow: 5px 5px 5px 5px gray;
-      
-    }
-    .btnContainer{
-        height: 50px;
-        width: 80%;
-        margin-left: 13%;
-        
-    }
-    .btnInsert{
-        width: 70%;
-        height: 45px;
-        margin-left: 10%;
-        margin-top: 0.1%;
-        float: left;
-        box-shadow: 5px 5px 5px 5px gray;
-    }
-    .btnContext{
-        width: 5%;
-        height: 100%;
-        background-color: rgb(17, 47, 114);
-        border-radius:0% 18% 18% 0%;
-        display: inline-block;
-        position: relative;
-        box-shadow: 5px 5px 5px 5px gray;
-       
-    }
-    .btnContextText{
-     
-        position: absolute;
-        top: 45%;
-        margin-left: 32%;
-        transform: translateY(-50%);
-        font-size: 35px;
-        font-weight: 700;
-        color: white;
-        
-        
-        
-    }
-    .contentsContainer{
-        width: 70%;
-        margin: auto;
-    }
-    .ContentsListContainer{
-        width: 90%;
-        margin-left: 5%;
-        box-shadow: 5px 5px 5px 5px gray;
-        border-radius: 30px;
-        list-style: none;
-    }
-    .aa{
-        width: 50px;
-        height: 50px;
-        background-color: chocolate;
-    }
- 
-</style>
 </html>
