@@ -31,9 +31,9 @@
             
         }
         .btnInsert{
-            width: 70%;
+            width: 69%;
             height: 45px;
-            margin-left: 10%;
+            margin-left: 9%;
             margin-top: 0.1%;
             float: left;
             box-shadow: 5px 5px 5px 5px gray;
@@ -58,16 +58,13 @@
             font-weight: 700;
             color: white;
             
-            
-            
         }
         .contentsContainer{
-            width: 70%;
+            width: 60%;
             margin: auto;
         }
         .ContentsListContainer{
-            width: 90%;
-            margin-left: 5%;
+            width: auto;
             box-shadow: 5px 5px 5px 5px gray;
             border-radius: 30px;
             list-style: none;
@@ -96,7 +93,21 @@
             margin-left: -25px; 
             display:none;
         }
-    </style>
+        .footerContainer{
+            background-color: aqua;
+            width: 65%;
+            margin: auto;
+
+        }
+        .clearContext{
+            width: 90%;
+            margin: auto;
+            text-align: center;
+            font-size: 35px;
+            background-color: blue;
+        }
+        
+</style>
 </head>
 <body>
     <div class="headContainer">
@@ -116,12 +127,16 @@
         <ul class="ContentsListContainer">
         </ul>
     </div>
+    <div class="footerContainer">
+        <div class="clearContext">clear</div>
+    </div>
     <script>
 
         const output = localStorage.getItem("list");
         let loadingArr = JSON.parse(output);
         const registerBtn = document.querySelector('.btnContext');
-        const totalList = document.querySelector('.ContentsListContainer')
+        const totalList = document.querySelector('.ContentsListContainer');
+        const removeBtn = document.querySelector('.clearContext');
         let countNumber=0;
 
         console.log("check"+loadingArr);
@@ -133,6 +148,12 @@
             for (let i in loadingArr)
             {
                 const Inserttext = document.createTextNode(loadingArr[i]);
+                paintList(Inserttext);
+
+            }
+        }
+        function paintList(input){
+                
                 const removeBtn = document.createTextNode('삭제');
                 const removeBtnDiv=document.createElement('div');
                 const newList = document.createElement('li');
@@ -142,7 +163,7 @@
                 chkBox.type="checkbox";
                 const chkLabel = document.createElement('label');
                 
-                liContextDiv.appendChild(Inserttext);
+                liContextDiv.appendChild(input);
                 removeBtnDiv.appendChild(removeBtn);//삭제
                 newList.appendChild(chkBox);
                 newList.appendChild(chkLabel);
@@ -157,10 +178,7 @@
                 chkLabel.for="check"+countNumber;
                 liContextDiv.id=countNumber++;
 
-
-            }
         }
-        
 
        
        //문제: 길이에 따라서 조정 필요함 순서가 보장된다는 전제하에 마지막 인덱스 값을 넣어준다.->순서보장안됨// 특정 인덱스에 최대 값을 저장한다. => value에 배열로 저장하면 된다.
@@ -168,41 +186,12 @@
         registerBtn.addEventListener('click',addList);
         function addList(){
 
-     
             const InsertValue = document.querySelector('.btnInsert').value;
             const Inserttext = document.createTextNode(InsertValue);
-
-            const removeBtn = document.createTextNode('삭제');
-            const removeBtnDiv=document.createElement('div');
-            const newList = document.createElement('li');
-            const liContextDiv = document.createElement('div');
-            const chkBox = document.createElement('input');
-            chkBox.id="check"+countNumber;
-            chkBox.type="checkbox";
+            paintList(Inserttext);
             
-            const chkLabel = document.createElement('label');
-            chkLabel.for="check"+countNumber;
-            
-            liContextDiv.appendChild(Inserttext);
-            removeBtnDiv.appendChild(removeBtn);//삭제
-            newList.appendChild(chkBox);
-            newList.appendChild(chkLabel);
-            newList.appendChild(liContextDiv);
-            newList.appendChild(removeBtnDiv)
-
-            totalList.appendChild(newList);
-
-            liContextDiv.className="liContextDiv";
-            removeBtnDiv.className="removeBtnDiv";
-            chkBox.className="checkDiv";
-            chkLabel.className="checkLabel FalseBox";
-            liContextDiv.id=countNumber++;
-
             loadingArr.push(InsertValue);
             localStorage.setItem("list",JSON.stringify(loadingArr));
- 
-
-
 
         }
         
@@ -243,8 +232,8 @@
                 if(checkValue==false) //언체크
                 {   
                     //checkValue=true;  
-                    event.target.classList.replace('FalseBox','TrueBox');
                     event.target.previousSibling.checked=true;
+                    event.target.classList.replace('FalseBox','TrueBox'); 
                     textDiv.style.textDecoration="line-through";
                 }
                 else{ //체크
@@ -258,7 +247,18 @@
        
 
         }    
-        
+        removeBtn.addEventListener('click',allRemoveList);
+        function allRemoveList(){
+
+            const ulList = document.querySelector('.ContentsListContainer');
+            const allList = document.getElementsByTagName('li');
+    
+            for(let i=allList.length-1; i>-1; i--)
+                ulList.removeChild(allList[i]);
+            localStorage.clear();
+
+
+        }
     </script>
 </body>
 </html>
