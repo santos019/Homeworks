@@ -1,0 +1,140 @@
+.headContainer{
+    width: 100%;
+    height: 150px;
+    background-color:rgb(255, 255, 255);
+   
+}
+.titleContainer{
+    margin: auto;
+    width: 300px;
+    height: 100px;
+   
+    display: flex;
+}
+.titleContext{
+    text-align: center;
+    width: 80%;
+    margin: auto;
+    font-size: 50px;
+    border-radius: 5%;
+    box-shadow: 5px 5px 5px 5px gray;
+  
+}
+.btnContainer{
+    height: 50px;
+    width: 80%;
+    margin-left: 13%;
+    
+}
+.btnInsert{
+    width: 69%;
+    height: 45px;
+    margin-left: 9%;
+    margin-top: 0.1%;
+    float: left;
+    box-shadow: 5px 5px 5px 5px gray;
+}
+.btnContext{
+    width: 5%;
+    height: 100%;
+    background-color: rgb(17, 47, 114);
+    border-radius:0% 18% 18% 0%;
+    box-shadow: 5px 5px 5px 5px gray;
+    float: left;
+    cursor: pointer;
+    text-align: center;
+    color: white;  
+    font-size: 35px;
+    font-weight: 700;
+}
+.btnContextHover{
+    width: 5%;
+    height: 100%;
+    background-color: rgb(55, 80, 133);
+    border-radius:0% 18% 18% 0%;
+    box-shadow: 5px 5px 5px 5px gray;
+    float: left;
+    cursor: pointer;
+    text-align: center;
+    color: white;  
+    font-size: 35px;
+    font-weight: 700;
+}
+
+.contentsContainer{
+    width: 55%;
+    height: auto;
+    margin: auto;
+    
+
+}
+.ContentsListContainer{
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    float: left;
+    box-shadow: 5px 5px 5px 5px gray;
+    border-radius: 30px;
+    list-style: none;
+    padding-left: 5%;
+    padding-right: 5%;
+    /* padding-left: 0px;
+     */
+
+}
+.TrueBox{ 
+    /* display: inline-block;  */
+    background-size: 30px; 
+    width:30px; 
+    float: left; 
+    height:30px; 
+    background-image:url("./Icon/icons8-tick-box-100.png");
+}
+.FalseBox{
+    /* display: inline-block;  */
+    background-size: 30px; 
+    width:30px; 
+    float: left; 
+    height:30px; 
+    background-image:url("./Icon/icons8-unchecked-checkbox-100.png");
+}
+.checkDiv{
+    font-size: 25px;  
+    width:30px; 
+    height:30px; 
+    /* position: absoulte;  */
+    margin-left: -25px; 
+    display:none;
+}
+.footerContainer{
+    
+    width: 65%;
+    margin: auto;
+
+}
+.clearContext{
+    width: 90%;
+    margin: auto;
+    text-align: center;
+    font-size: 35px;
+    
+}
+.liContextDiv{
+
+    width: 80%;
+    height: 20px;
+    background-color: aqua;
+    
+    padding-top:0.2%;
+    float: left;
+
+}
+.removeBtnDiv{
+    background-size: 20px; 
+    width:20px; 
+    height:20px;
+    background-color: brown;
+    background-image:url("./Icon/free-icon-font-trash-3917378.png");
+    float: left;
+
+}
