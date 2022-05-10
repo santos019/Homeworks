@@ -43,20 +43,21 @@
             height: 100%;
             background-color: rgb(17, 47, 114);
             border-radius:0% 18% 18% 0%;
-            display: inline-block;
-            position: relative;
+            /* display: inline-block;
+            position: relative; */
             box-shadow: 5px 5px 5px 5px gray;
+            float: left;
            
         }
         .btnContextText{
-         
-            position: absolute;
-            top: 45%;
-            margin-left: 32%;
-            transform: translateY(-50%);
+     
+            margin: auto;
             font-size: 35px;
             font-weight: 700;
+            width: 100%;
+            text-align: center;
             color: white;
+         
             
         }
         .contentsContainer{
@@ -68,9 +69,10 @@
             box-shadow: 5px 5px 5px 5px gray;
             border-radius: 30px;
             list-style: none;
+            padding-left: 0px;
         }
         .TrueBox{ 
-            display: inline-block; 
+            /* display: inline-block;  */
             background-size: 30px; 
             width:30px; 
             float: left; 
@@ -78,7 +80,7 @@
             background-image:url("./Icon/icons8-tick-box-100.png");
         }
         .FalseBox{
-            display: inline-block; 
+            /* display: inline-block;  */
             background-size: 30px; 
             width:30px; 
             float: left; 
@@ -106,6 +108,15 @@
             font-size: 35px;
             background-color: blue;
         }
+        .liContextDiv{
+
+            width: 80%;
+            height: 20px;
+            background-color: aqua;
+            margin-left:3%;
+            padding-top:0.2%;
+
+        }
         
 </style>
 </head>
@@ -128,7 +139,7 @@
         </ul>
     </div>
     <div class="footerContainer">
-        <div class="clearContext">clear</div>
+        <div class="clearContext">CLEAR All</div>
     </div>
     <script>
 
@@ -139,7 +150,6 @@
         const removeBtn = document.querySelector('.clearContext');
         let countNumber=0;
 
-        console.log("check"+loadingArr);
         if(loadingArr===null) loadingArr=[];
 
         if(localStorage.getItem("list")!==null) //비어있지 않으면 그립니다.
@@ -162,7 +172,7 @@
                 chkBox.id="check"+countNumber;
                 chkBox.type="checkbox";
                 const chkLabel = document.createElement('label');
-                
+    
                 liContextDiv.appendChild(input);
                 removeBtnDiv.appendChild(removeBtn);//삭제
                 newList.appendChild(chkBox);
@@ -192,6 +202,8 @@
             
             loadingArr.push(InsertValue);
             localStorage.setItem("list",JSON.stringify(loadingArr));
+            const InputValue = document.querySelector('.btnInsert');
+            InputValue.value='';
 
         }
         
@@ -228,7 +240,7 @@
             {   
                 const textDiv = event.target.nextSibling;
                 const checkValue =event.target.previousSibling.checked;
-                //console.log(event.target.previousSibling.checked);
+       
                 if(checkValue==false) //언체크
                 {   
                     //checkValue=true;  
@@ -244,7 +256,6 @@
                 }
             }
             
-       
 
         }    
         removeBtn.addEventListener('click',allRemoveList);
