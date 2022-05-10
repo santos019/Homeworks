@@ -1,4 +1,4 @@
-let output = localStorage.getItem('list')
+const output = localStorage.getItem('list')
 let loadingArr = JSON.parse(output)
 const registerBtn = document.querySelector('.btnContext')
 const totalList = document.querySelector('.ContentsListContainer')
@@ -39,7 +39,7 @@ function paintList (input) {
     chkBox.className = 'checkDiv'
     chkLabel.className = 'checkLabel FalseBox'
     chkLabel.for = 'check' + countNumber
-    liContextDiv.id = countNumber++
+    newList.id = countNumber++
 }
 
 // 문제: 길이에 따라서 조정 필요함 순서가 보장된다는 전제하에 마지막 인덱스 값을 넣어준다.->순서보장안됨// 특정 인덱스에 최대 값을 저장한다. => value에 배열로 저장하면 된다.
@@ -59,16 +59,26 @@ totalList.addEventListener('click', removeList)
 
 function removeList () {
     if (event.target.className === 'removeBtnDiv') {
-        output = localStorage.getItem('list')
-        loadingArr = JSON.parse(output)
         const upNode = event.target.parentNode
         const moreUpNode = upNode.parentNode
-        const deleteIndex = event.target.previousSibling.id
-        loadingArr.splice(deleteIndex, 1)
-        console.log(deleteIndex)
-        console.log(loadingArr)
-        localStorage.setItem('list', JSON.stringify(loadingArr))
-        moreUpNode.removeChild(upNode)
+        const deleteIndex = event.target.parentNode.id
+        console.log(event.target.parentNode.id)
+        if (localStorage.getItem('list').length === 1) {
+            localStorage.clear()
+            loadingArr = []
+        } else {
+            loadingArr.splice(deleteIndex, 1)
+            console.log(deleteIndex)
+            console.log('지운배열' + loadingArr)
+            localStorage.setItem('list', JSON.stringify(loadingArr))
+            moreUpNode.removeChild(upNode)
+            const allList = document.getElementsByTagName('li')
+            for (let j = allList.length - 1; j > -1; j--) {
+                console.log('before' + allList[j].id)
+                allList[j].id = j
+                console.log('after' + allList[j].id)
+            }
+        }
     } else if (event.target.className === 'liContextDiv') {
         const labelDiv = event.target.previousSibling
         if (event.target.style.textDecoration === 'line-through') {
