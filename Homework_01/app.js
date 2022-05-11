@@ -3,9 +3,7 @@ let loadingArr = JSON.parse(output)
 const registerBtn = document.querySelector('.btnContext')
 const totalList = document.querySelector('.ContentsListContainer')
 const removeBtn = document.querySelector('.clearContext')
-// const listOBJ = [
 
-// ]
 if (loadingArr === null) loadingArr = []
 
 let countNumber = loadingArr.length === 0 ? 0 : loadingArr[loadingArr.length - 1].nodeId + 1
@@ -15,9 +13,18 @@ if (localStorage.getItem('list') !== null) {
         const Inserttext = document.createTextNode(loadingArr[i].nodeValue)
         const newList = paintList(Inserttext, i)
         newList.id = loadingArr[i].nodeId
+        if (loadingArr[i].nodeCheck === true) {
+            const setChkBox = document.getElementById('check' + countNumber)
+            setChkBox.checked = true
+            const changeDiv = newList.childNodes[2]
+            const changeChkImg = newList.childNodes[1]
+            changeChkImg.classList.replace('FalseBox', 'TrueBox')
+            changeDiv.style.textDecoration = 'line-through'
+        }
     }
+    console.log(loadingArr)
 }
-function paintList (input, i) {
+function paintList (input) {
     const removeBtnDiv = document.createElement('div')
     const newList = document.createElement('li')
     const liContextDiv = document.createElement('div')
@@ -32,21 +39,15 @@ function paintList (input, i) {
     newList.appendChild(chkLabel)
     newList.appendChild(liContextDiv)
     newList.appendChild(removeBtnDiv)
-    newList.style.float = 'left'
-    newList.style.width = '100%'
-    newList.style.height = '25px'
-    newList.style.marginLeft = '4%'
-    newList.style.marginTop = '0.2%'
+    newList.className = 'newList'
 
     totalList.appendChild(newList)
-    liContextDiv.className = 'liContextDiv'
+    liContextDiv.className = 'liContextDiv' // + countNumber
     removeBtnDiv.className = 'removeBtnDiv'
     chkBox.className = 'checkDiv'
     chkLabel.className = 'checkLabel FalseBox'
     chkLabel.for = 'check' + countNumber
-    // newList.id = countNumber++ ++꼭해
-    // loadingArr.push({ nodeId: countNumber++, nodeValue: input.data, nodeCheck: false })
-    console.log(loadingArr)
+    // console.log(loadingArr)
     return newList
 }
 
@@ -67,34 +68,20 @@ function addList () {
 totalList.addEventListener('click', removeList)
 
 function removeList () {
+    output = localStorage.getItem('list')
+    loadingArr = JSON.parse(output)
+    const deleteIndex = event.target.parentNode.id
     if (event.target.className === 'removeBtnDiv') {
-        output = localStorage.getItem('list')
-        loadingArr = JSON.parse(output)
         const upNode = event.target.parentNode
         const moreUpNode = upNode.parentNode
-        const deleteIndex = event.target.parentNode.id
         console.log(deleteIndex)
         if (localStorage.getItem('list').length <= 1) {
             localStorage.clear()
             loadingArr = []
         } else {
-            // loadingArr.splice(deleteIndex, 1)
-            // console.log(deleteIndex)
-            // console.log('지운배열' + loadingArr)
             moreUpNode.removeChild(upNode)
-            // for (let k in loadingArr) {
-            //     if (loadingArr[k].nodeId === deleteIndex) {
-            //         loadingArr.splice(k, k)
-            //     }
-            // }
             const filterArr = loadingArr.filter((el) => Number(el.nodeId) !== Number(deleteIndex))
             console.log(filterArr)
-            // const allList = document.getElementsByTagName('li')
-            // for (let j = allList.length - 1; j > -1; j--) {
-            //     console.log('before' + allList[j].id)
-            //     allList[j].id = j
-            //     console.log('after' + allList[j].id)
-            // }
             localStorage.setItem('list', JSON.stringify(filterArr))
         }
     } else if (event.target.className === 'liContextDiv') {
@@ -106,6 +93,16 @@ function removeList () {
             event.target.style.textDecoration = 'line-through'
             labelDiv.classList.replace('FalseBox', 'TrueBox')
         }
+        // eslint-disable-next-line prefer-const
+        for (let i in loadingArr) {
+            console.log(i)
+            if (loadingArr[i].nodeId === Number(deleteIndex)) {
+                loadingArr[i].nodeCheck = !loadingArr[i].nodeCheck
+                console.log('in' + i)
+            }
+        }
+        console.log(loadingArr)
+        localStorage.setItem('list', JSON.stringify(loadingArr))
     } else if (event.target.classList.contains('checkLabel')) {
         const textDiv = event.target.nextSibling
         const checkValue = event.target.previousSibling.checked
@@ -121,6 +118,15 @@ function removeList () {
             event.target.classList.replace('TrueBox', 'FalseBox')
             textDiv.style.textDecoration = 'none'
         }
+        for (let i in loadingArr) {
+            console.log(i)
+            if (loadingArr[i].nodeId === Number(deleteIndex)) {
+                loadingArr[i].nodeCheck = !loadingArr[i].nodeCheck
+                console.log('in' + i)
+            }
+        }
+        console.log(loadingArr)
+        localStorage.setItem('list', JSON.stringify(loadingArr))
     }
 }
 removeBtn.addEventListener('click', allRemoveList)
@@ -130,8 +136,20 @@ function allRemoveList () {
 
     // eslint-disable-next-line no-const-assign
     for (let i = allList.length - 1; i > -1; i--) { ulList.removeChild(allList[i]) }
+    loadingArr = []
     localStorage.clear()
 }
+
+removeBtn.addEventListener('mouseenter', removeBtnHover)
+function removeBtnHover () {
+    removeBtn.classList.replace('clearContext', 'clearContextHover')
+}
+
+removeBtn.addEventListener('mouseout', removeBtnOver)
+function removeBtnOver () {
+    removeBtn.classList.replace('clearContextHover', 'clearContext')
+}
+
 registerBtn.addEventListener('mouseenter', addBtnHover)
 function addBtnHover () {
     registerBtn.classList.replace('btnContext', 'btnContextHover')

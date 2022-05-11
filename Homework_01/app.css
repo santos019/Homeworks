@@ -36,7 +36,7 @@
 }
 .btnContext{
     width: 5%;
-    height: 100%;
+    height: 97%;
     background-color: rgb(17, 47, 114);
     border-radius:0% 18% 18% 0%;
     box-shadow: 5px 5px 5px 5px gray;
@@ -46,6 +46,7 @@
     color: white;  
     font-size: 35px;
     font-weight: 700;
+    /* margin-top: -0.1%; */
 }
 .btnContextHover{
     width: 5%;
@@ -76,6 +77,8 @@
     border-radius: 30px;
     list-style: none;
     padding-left: 0px;
+    padding-bottom: 1% ;
+    padding-top: 1%;
      
 
 }
@@ -85,34 +88,32 @@
     height: auto;
 
 }
-.TrueBox{ 
-    /* display: inline-block;  */
+.checkLabel{
     background-size: 30px; 
     width:30px; 
     float: left; 
     height:30px; 
+    cursor: pointer;
+}
+.TrueBox{ 
     background-image:url("./Icon/icons8-tick-box-100.png");
 }
+
 .FalseBox{
-    /* display: inline-block;  */
-    background-size: 30px; 
-    width:30px; 
-    float: left; 
-    height:30px; 
     background-image:url("./Icon/icons8-unchecked-checkbox-100.png");
 }
 .checkDiv{
     font-size: 25px;  
     width:30px; 
     height:30px; 
-    /* position: absoulte;  */
     margin-left: -25px; 
     display:none;
 }
 .footerContainer{
     
-    width: 65%;
-    margin: auto;
+    width: 60%;
+    margin-left: 20%;
+    float: left;
 
 }
 .clearContext{
@@ -120,24 +121,50 @@
     margin: auto;
     text-align: center;
     font-size: 35px;
+    cursor: pointer;
+    background-color: white;
+    color: black;
     
+}
+.clearContextHover{
+
+    width: 90%;
+    margin: auto;
+    text-align: center;
+    font-size: 35px;
+    background-color: rgba(72, 101, 235, 0.705);
+    color: whitesmoke;
+    cursor: pointer;
 }
 .liContextDiv{
 
     width: 80%;
     height: 20px;
-    background-color: aqua;
-    
-    padding-top:0.2%;
+    margin-top:0.5%;
     float: left;
+    border-bottom: 1px solid;
+    border-color: rgb(199, 197, 197);
+    cursor: pointer;
 
 }
 .removeBtnDiv{
     background-size: 20px; 
     width:20px; 
     height:20px;
-    background-color: brown;
     background-image:url("./Icon/free-icon-font-trash-3917378.png");
     float: left;
+    margin-top: 0.5%;
+    margin-left: 2%;
+    cursor: pointer;
 
+
+}
+.newList {
+
+    float: left;
+    width: 100%;
+    height: 25px;
+    margin-left: 4%;
+    margin-top: 0.2%;
+    margin-bottom: 0.5%;
 }
