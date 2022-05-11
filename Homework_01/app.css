@@ -17,7 +17,7 @@
     margin: auto;
     font-size: 50px;
     border-radius: 5%;
-    box-shadow: 5px 5px 5px 5px gray;
+    box-shadow: 0px 5px 5px 5px gray;
   
 }
 .btnContainer{
@@ -34,10 +34,14 @@
     float: left;
     box-shadow: 5px 5px 5px 5px gray;
 }
+
+
+
 .btnContext{
+    background: rgb(8, 33, 116);
+    background: linear-gradient( to bottom, rgb(28, 62, 131), rgba(5, 19, 82, 0.705));
     width: 5%;
     height: 97%;
-    background-color: rgb(17, 47, 114);
     border-radius:0% 18% 18% 0%;
     box-shadow: 5px 5px 5px 5px gray;
     float: left;
@@ -46,22 +50,14 @@
     color: white;  
     font-size: 35px;
     font-weight: 700;
-    /* margin-top: -0.1%; */
-}
-.btnContextHover{
-    width: 5%;
-    height: 100%;
-    background-color: rgb(55, 80, 133);
-    border-radius:0% 18% 18% 0%;
-    box-shadow: 5px 5px 5px 5px gray;
-    float: left;
-    cursor: pointer;
-    text-align: center;
-    color: white;  
-    font-size: 35px;
-    font-weight: 700;
+    
+
 }
 
+.btnContextChange{
+    background: rgb(136, 156, 221);
+    background: linear-gradient( to bottom, rgb(33, 69, 139), rgba(50, 81, 216, 0.705));
+}
 .contentsContainer{
     width: 100%;
     height: auto;
@@ -89,7 +85,8 @@
 
 }
 .checkLabel{
-    background-size: 30px; 
+    background-size: 30px;
+    background-image:url("./Icon/icons8-unchecked-checkbox-100.png");
     width:30px; 
     float: left; 
     height:30px; 
@@ -99,8 +96,9 @@
     background-image:url("./Icon/icons8-tick-box-100.png");
 }
 
-.FalseBox{
-    background-image:url("./Icon/icons8-unchecked-checkbox-100.png");
+.checkLabelhvEvnt{
+
+    background-color: rgba(204, 204, 204, 0.562);
 }
 .checkDiv{
     font-size: 25px;  
@@ -123,18 +121,16 @@
     font-size: 35px;
     cursor: pointer;
     background-color: white;
-    color: black;
-    
+    color: rgb(0, 0, 0);
+    font-weight: 700;
 }
+
 .clearContextHover{
 
-    width: 90%;
-    margin: auto;
-    text-align: center;
-    font-size: 35px;
-    background-color: rgba(72, 101, 235, 0.705);
+    background: rgb(8, 33, 116);
+    background: linear-gradient( to bottom, rgb(28, 62, 131), rgba(5, 19, 82, 0.705));
     color: whitesmoke;
-    cursor: pointer;
+  
 }
 .liContextDiv{
 
@@ -144,8 +140,13 @@
     float: left;
     border-bottom: 1px solid;
     border-color: rgb(199, 197, 197);
+    
     cursor: pointer;
 
+}
+.liContextDivhvEvnt{
+
+    background: linear-gradient( to bottom, rgb(236, 234, 234), rgb(228, 226, 226));
 }
 .removeBtnDiv{
     background-size: 20px; 
@@ -156,9 +157,14 @@
     margin-top: 0.5%;
     margin-left: 2%;
     cursor: pointer;
-
+    background-color: rgba(255, 255, 255, 0);
 
 }
+
+.removeBtnDivhvEvnt{
+    background-color: rgba(204, 204, 204, 0.562);
+}
+
 .newList {
 
     float: left;
