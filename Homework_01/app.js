@@ -65,12 +65,6 @@ function addList (e) {
     InputValue.value = ''
 }
 
-[].map(function (value, index, array) {
-    return {
-        value: value + '1'
-    }
-})
-
 totalList.addEventListener('click', removeList)
 totalList.addEventListener('mouseover', hoverEvnt)
 totalList.addEventListener('mouseout', hoverEvnt)
@@ -114,9 +108,7 @@ function removeList (event) {
     localStorage.setItem('list', JSON.stringify(loadingArr))
 }
 removeBtn.addEventListener('click', allRemoveList)
-function allRemoveList (
-    
-) {
+function allRemoveList () {
     const ulList = document.querySelector('.ContentsListContainer')
     const allList = document.getElementsByTagName('li')
 
