@@ -10,7 +10,7 @@ const keyInput = document.querySelector('.btnInsert')
 if (localStorage.getItem('list') !== null) {
     for (const i in loadingArr) {
         const Inserttext = document.createTextNode(loadingArr[i].nodeValue)
-        const newList = paintList(Inserttext, i)
+        const newList = paintList(Inserttext)
         newList.id = loadingArr[i].nodeId
         if (loadingArr[i].nodeCheck === true) {
             const setChkBox = document.getElementById('check' + countNumber)
@@ -81,7 +81,6 @@ function removeList (event) {
     const deleteIndex = parNode.id
     if (event.target.classList.contains('removeBtnDiv')) {
         const moreUpNode = parNode.parentNode
-        // console.log(deleteIndex)
         if (localStorage.getItem('list').length <= 1) {
             localStorage.clear()
             loadingArr = []
@@ -97,13 +96,8 @@ function removeList (event) {
         checkDiv.checked = !checkDiv.checked
         labelDiv.classList.toggle('TrueBox')
         listDiv.style.textDecoration = listDiv.style.textDecoration === 'line-through' ? 'none' : 'line-through'
-        // 이거 먼저 만들어진  find나 findindex 사용하는게 더 빠른지????
-        // eslint-disable-next-line prefer-const
-        for (let i in loadingArr) {
-            if (loadingArr[i].nodeId === Number(deleteIndex)) {
-                loadingArr[i].nodeCheck = !loadingArr[i].nodeCheck
-            }
-        }
+        const ans = loadingArr.find(e => Number(e.nodeId) === Number(deleteIndex))
+        ans.nodeCheck = (ans !== undefined ? !ans.nodeCheck : ans.nodeCheck)
     }
     localStorage.setItem('list', JSON.stringify(loadingArr))
 }
