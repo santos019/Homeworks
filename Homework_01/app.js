@@ -5,7 +5,7 @@ let countNumber = loadingArr.length === 0 ? 0 : loadingArr[loadingArr.length - 1
 const registerBtn = document.querySelector('.btnContext')
 const totalList = document.querySelector('.ContentsListContainer')
 const removeBtn = document.querySelector('.clearContext')
-const keyInput = document.querySelector('.btnInsert')
+const someRmBtn = document.querySelector('.cleanChecked')
 
 if (localStorage.getItem('list') !== null) {
     for (const i in loadingArr) {
@@ -21,9 +21,22 @@ if (localStorage.getItem('list') !== null) {
             changeDiv.style.textDecoration = 'line-through'
         }
     }
-    // console.log(loadingArr)
 }
-function paintList (input) {
+someRmBtn.addEventListener('click', chkRemove)
+function chkRemove () { // 체크된 것만 지우는 함수
+    output = localStorage.getItem('list')
+    loadingArr = JSON.parse(output) === null ? [] : JSON.parse(output)
+    loadingArr = loadingArr.filter(detailCheck)
+    localStorage.setItem('list', JSON.stringify(loadingArr))
+}
+function detailCheck (el) { // chkRemove 함수의 filter callback 함수
+    if (el.nodeCheck === true) {
+        const removeLi = document.getElementById(el.nodeId)
+        totalList.removeChild(removeLi)
+        return false
+    } else return true
+}
+function paintList (input) { // 노드를 추가하거나 새로고침할 때 그리는 함수
     const removeBtnDiv = document.createElement('div')
     const newList = document.createElement('li')
     const liContextDiv = document.createElement('div')
@@ -52,7 +65,7 @@ function paintList (input) {
 // 문제: 길이에 따라서 조정 필요함 순서가 보장된다는 전제하에 마지막 인덱스 값을 넣어준다.->순서보장안됨// 특정 인덱스에 최대 값을 저장한다. => value에 배열로 저장하면 된다.
 
 registerBtn.addEventListener('click', addList)
-function addList (e) {
+function addList (e) { // 리스트를 새로 추가하는 함수
     if ((e.type === 'keyup') && (e.key !== 'Enter')) { return }
 
     const InsertValue = document.querySelector('.btnInsert').value
@@ -65,16 +78,16 @@ function addList (e) {
     InputValue.value = ''
 }
 
-totalList.addEventListener('click', removeList)
+totalList.addEventListener('click', listEvnt)
 totalList.addEventListener('mouseover', hoverEvnt)
 totalList.addEventListener('mouseout', hoverEvnt)
-function hoverEvnt () {
+function hoverEvnt (event) {
     if (event.target.classList.contains('checkLabel') || event.target.classList.contains('liContextDiv') || event.target.classList.contains('removeBtnDiv')) {
         const evntArr = event.target.className.split(' ')
         event.target.classList.toggle(evntArr[0] + 'hvEvnt')
     }
 }
-function removeList (event) {
+function listEvnt (event) { // 지우기 버튼과 체크, 라벨 버튼 클릭 이벤트
     output = localStorage.getItem('list')
     loadingArr = JSON.parse(output)
     const parNode = event.target.parentNode
@@ -122,4 +135,9 @@ registerBtn.addEventListener('mouseleave', addBtnChange)
 function addBtnChange () {
     registerBtn.classList.toggle('btnContextChange')
 }
-keyInput.addEventListener('keyup', e => addList(e))
+someRmBtn.addEventListener('mouseenter', someRmBtnChange)
+someRmBtn.addEventListener('mouseleave', someRmBtnChange)
+function someRmBtnChange () {
+    someRmBtn.classList.toggle('cleanCheckedtHover')
+}
+window.addEventListener('keyup', e => addList(e))
