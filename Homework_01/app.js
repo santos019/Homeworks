@@ -32,6 +32,7 @@ function chkRemove () { // 체크된 것만 지우는 함수
     loadingArr = JSON.parse(output) === null ? [] : JSON.parse(output)
     loadingArr = loadingArr.filter(detailCheck)
     localStorage.setItem('list', JSON.stringify(loadingArr))
+    allExit()
 }
 function detailCheck (el) { // chkRemove 함수의 filter callback 함수
     if (el.nodeCheck === true) {
@@ -90,7 +91,7 @@ totalList.addEventListener('click', listEvnt)
 totalList.addEventListener('mouseover', hoverEvnt)
 totalList.addEventListener('mouseout', hoverEvnt)
 function hoverEvnt (event) {
-    if (event.target.classList.contains('checkLabel') || event.target.classList.contains('liContextDiv') || event.target.classList.contains('removeBtnDiv')) {
+    if (event.target.classList.contains('checkLabel') || event.target.classList.contains('liContextDiv') || event.target.classList.contains('removeBtnDiv') || event.target.classList.contains('writeDiv')) {
         const evntArr = event.target.className.split(' ')
         event.target.classList.toggle(evntArr[0] + 'hvEvnt')
     }
@@ -102,8 +103,6 @@ function listEvnt (event) { // 지우기 버튼과 체크, 라벨 버튼 클릭 
     const deleteIndex = parNode.id
     if (event.target.classList.contains('removeBtnDiv')) {
         const moreUpNode = parNode.parentNode
-        console.log(deleteIndex)
-        console.log(loadingArr[currentIndex].nodeId)
         if (currentIndex !== -1 && (Number(loadingArr[currentIndex].nodeId) === Number(deleteIndex))) {
             allExit()
         }
@@ -129,21 +128,21 @@ function listEvnt (event) { // 지우기 버튼과 체크, 라벨 버튼 클릭 
         if (textDiv.classList.contains('writingOpen')) { textDiv.classList.remove('writingOpen') }
         writeBtn.classList.add('moreFooterContainerOpen')
         currentIndex = loadingArr.findIndex(e => Number(e.nodeId) === Number(deleteIndex))
-        // addFun(ans)
-        // textarea로 넘어가는 거
-        // 종료버튼 이벤트 추가
         painting(currentIndex)
         const exitBtn = document.querySelector('.moreFooterExit')
         exitBtn.addEventListener('click', allExit)
+        exitBtn.addEventListener('mouseenter', exitHoverEvnt)
+        exitBtn.addEventListener('mouseleave', exitHoverEvnt)
     }
     localStorage.setItem('list', JSON.stringify(loadingArr))
 }
-
+function exitHoverEvnt () {
+    const exitBtn = document.querySelector('.moreFooterExit')
+    exitBtn.classList.toggle('moreFooterExitHover')
+}
 function painting (Index) { // 제목과 내용을 그리는 함수
     output = localStorage.getItem('list')
     loadingArr = JSON.parse(output)
-    console.log(loadingArr)
-    console.log(Index)
     if (writeDiv.firstChild !== null) writeDiv.removeChild(writeDiv.firstChild)
     if (writeTitle.firstChild !== null) writeTitle.removeChild(writeTitle.firstChild)
 
@@ -151,45 +150,41 @@ function painting (Index) { // 제목과 내용을 그리는 함수
     const InsertContext = document.createTextNode(loadingArr[Index].context)
     const InserttextP = document.createElement('p')
     const InsertContextP = document.createElement('p')
+    // InserttextP.className = 'titleContainer'
     InserttextP.appendChild(Inserttext)
     InsertContextP.appendChild(InsertContext)
     writeTitle.appendChild(InserttextP)
     writeDiv.appendChild(InsertContextP)
-
+    InsertContextP.className = 'listContext'
     writeDiv.addEventListener('click', toWrite)
     textDiv.value = loadingArr[Index].context
 }
 
 function toWrite () {
-    if (event.target.classList.contains('writeContext')) {
+    console.log(event.target)
+    if (event.target.classList.contains('writeContext') || event.target.className === 'listContext') {
+        console.log("00000")
         writeDiv.classList.toggle('writeContextClose')
         textDiv.classList.toggle('writingOpen')
-        // window.removeEventListener('click', writeEvnt)
-        // textFunc(ans)
         window.addEventListener('click', textEvnt)
-        // console.log("writeEvnt event")
     }
 }
 
-function textEvnt (ans) { // 목록 진입 이벤트
-    // console.log("textEvnt event")
+function textEvnt () { // 목록 진입 이벤트
     if (!event.target.classList.contains('writing') && !event.target.classList.contains('writeContext') && !(event.target.className === 'writeDiv')) {
         writeDiv.classList.toggle('writeContextClose')
         textDiv.classList.toggle('writingOpen')
-        // textDiv.value
         window.removeEventListener('click', textEvnt)
-        // window.addEventListener('click', writeEvnt)
-        console.log(currentIndex)
         loadingArr[currentIndex].context = textDiv.value
-        console.log(currentIndex)
-        console.log(ans)
         localStorage.setItem('list', JSON.stringify(loadingArr))
         painting(currentIndex)
     }
 }
 
 function allExit () {
-    writeBtn.classList.toggle('moreFooterContainerOpen')
+    if (writeBtn.classList.contains('moreFooterContainerOpen')) {
+        writeBtn.classList.remove('moreFooterContainerOpen')
+    }
     writeDiv.removeEventListener('click', toWrite)
     if (writeDiv.classList.contains('writeContextClose')) { writeDiv.classList.remove('writeContextClose') }
     if (textDiv.classList.contains('writingOpen')) { textDiv.classList.remove('writingOpen') }
@@ -200,7 +195,7 @@ removeBtn.addEventListener('click', allRemoveList)
 function allRemoveList () {
     const ulList = document.querySelector('.ContentsListContainer')
     const allList = document.getElementsByTagName('li')
-
+    allExit()
     // eslint-disable-next-line no-const-assign
     for (let i = allList.length - 1; i > -1; i--) { ulList.removeChild(allList[i]) }
     loadingArr = []

@@ -152,9 +152,10 @@
 }
 .liContextDiv{
 
-    width: 75%;
+    width: 80%;
     height: 20px;
     margin-top:0.5%;
+    margin-right: 4%;
     float: left;
     border-bottom: 1px solid;
     border-color: rgb(199, 197, 197);
@@ -175,11 +176,12 @@
     background-image:url("./Icon/free-icon-font-trash-3917378.png");
     float: left;
     margin-top: 0.5%;
-    margin-left: 1.5%;
+    margin-left: 2.5%;
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0);
 
 }
+
 
 .removeBtnDivhvEvnt{
     background-color: rgba(204, 204, 204, 0.562);
@@ -226,7 +228,6 @@
     margin-top: 2%;
     height: 75%;
     float: left;
-    background-color: aquamarine;
     display: block;
 }
 .writeContextClose{
@@ -238,7 +239,6 @@
     margin-top: 2%;
     height: 75%;
     float: left;
-    background-color: rgb(199, 16, 16);
     display: none;
 
 }
@@ -246,19 +246,27 @@
     display: block;
 }
 .writeDiv{
-    width: 20px;
-    height: 20px;
+    background-size: 18px; 
+    width:18px; 
+    height:18px;
+    background-image:url("./Icon/free-icon-font-pencil-3917376.png");
     float: left;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0);
     margin-top: 0.5%;
-    background-color: aqua;
-    margin-left: 2%;
+    margin-left: -1%;
 }
+
+.writeDivhvEvnt{
+    background-color: rgba(204, 204, 204, 0.562);
+}
+
 .writeTitle{
     margin-left: 10%;
     float: left;
-    margin-top: 2%;
+    margin-top: -8%;
     width: 80%;
-    background-color: blue;
+    
     word-wrap: break-word;
     margin-bottom: 2%;
 }
@@ -267,6 +275,12 @@
     height: 30px;
     text-align: center;
     float: right;
-    background-color: aquamarine;
+    background: rgb(8, 33, 116);
+    background: linear-gradient( to bottom, rgb(28, 62, 131), rgba(5, 19, 82, 0.705));
+    color: white;
     cursor: pointer;
+}
+.moreFooterExitHover{
+    background: rgb(136, 156, 221);
+    background: linear-gradient( to bottom, rgb(33, 69, 139), rgba(50, 81, 216, 0.705));
 }
