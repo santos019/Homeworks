@@ -262,3 +262,11 @@
     word-wrap: break-word;
     margin-bottom: 2%;
 }
+.moreFooterExit{
+    width: 8%;
+    height: 30px;
+    text-align: center;
+    float: right;
+    background-color: aquamarine;
+    cursor: pointer;
+}
