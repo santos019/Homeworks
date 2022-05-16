@@ -88,14 +88,14 @@ function addList (e) { // 리스트를 새로 추가하는 함수
 }
 
 totalList.addEventListener('click', listEvnt)
-totalList.addEventListener('mouseover', hoverEvnt)
-totalList.addEventListener('mouseout', hoverEvnt)
-function hoverEvnt (event) {
-    if (event.target.classList.contains('checkLabel') || event.target.classList.contains('liContextDiv') || event.target.classList.contains('removeBtnDiv') || event.target.classList.contains('writeDiv')) {
-        const evntArr = event.target.className.split(' ')
-        event.target.classList.toggle(evntArr[0] + 'hvEvnt')
-    }
-}
+// totalList.addEventListener('mouseover', hoverEvnt)
+// totalList.addEventListener('mouseout', hoverEvnt)
+// function hoverEvnt (event) {
+//     if (event.target.classList.contains('checkLabel') || event.target.classList.contains('liContextDiv') || event.target.classList.contains('removeBtnDiv') || event.target.classList.contains('writeDiv')) {
+//         const evntArr = event.target.className.split(' ')
+//         event.target.classList.toggle(evntArr[0] + 'hvEvnt')
+//     }
+// }
 function listEvnt (event) { // 지우기 버튼과 체크, 라벨 버튼 클릭 이벤트
     output = localStorage.getItem('list')
     loadingArr = JSON.parse(output)
@@ -163,7 +163,6 @@ function painting (Index) { // 제목과 내용을 그리는 함수
 function toWrite () {
     console.log(event.target)
     if (event.target.classList.contains('writeContext') || event.target.className === 'listContext') {
-        console.log("00000")
         writeDiv.classList.toggle('writeContextClose')
         textDiv.classList.toggle('writingOpen')
         window.addEventListener('click', textEvnt)
@@ -202,19 +201,19 @@ function allRemoveList () {
     localStorage.clear()
 }
 
-removeBtn.addEventListener('mouseenter', removeBtnChange)
-removeBtn.addEventListener('mouseleave', removeBtnChange)
-function removeBtnChange () {
-    removeBtn.classList.toggle('clearContextHover')
-}
-registerBtn.addEventListener('mouseenter', addBtnChange)
-registerBtn.addEventListener('mouseleave', addBtnChange)
-function addBtnChange () {
-    registerBtn.classList.toggle('btnContextChange')
-}
-someRmBtn.addEventListener('mouseenter', someRmBtnChange)
-someRmBtn.addEventListener('mouseleave', someRmBtnChange)
-function someRmBtnChange () {
-    someRmBtn.classList.toggle('cleanCheckedtHover')
-}
+// removeBtn.addEventListener('mouseenter', removeBtnChange)
+// removeBtn.addEventListener('mouseleave', removeBtnChange)
+// function removeBtnChange () {
+//     removeBtn.classList.toggle('clearContextHover')
+// }
+// registerBtn.addEventListener('mouseenter', addBtnChange)
+// registerBtn.addEventListener('mouseleave', addBtnChange)
+// function addBtnChange () {
+//     registerBtn.classList.toggle('btnContextChange')
+// }
+// someRmBtn.addEventListener('mouseenter', someRmBtnChange)
+// someRmBtn.addEventListener('mouseleave', someRmBtnChange)
+// function someRmBtnChange () {
+//     someRmBtn.classList.toggle('cleanCheckedtHover')
+// }
 window.addEventListener('keyup', e => addList(e))
