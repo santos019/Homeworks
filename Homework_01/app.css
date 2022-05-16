@@ -50,11 +50,12 @@
     color: white;  
     font-size: 35px;
     font-weight: 700;
+    line-height: 40px;
     
 
 }
 
-.btnContextChange{
+.btnContext:hover{
     background: rgb(136, 156, 221);
     background: linear-gradient( to bottom, rgb(33, 69, 139), rgba(50, 81, 216, 0.705));
 }
@@ -99,6 +100,11 @@
 
     background-color: rgba(204, 204, 204, 0.562);
 }
+.checkLabel:active{
+    border: 0.0px solid rgb(8, 33, 116);
+    background-color: rgba(204, 204, 204, 0.562);
+    transform: scale(1.05);
+}
 /* .checkLabelhvEvnt{
 
     background-color: rgba(204, 204, 204, 0.562);
@@ -114,24 +120,30 @@
     
     width: 60%;
     margin-left: 20%;
-    float: left;
+    display: flex;
+    background-color: aqua;
 
 }
 .clearContext{
-    width: 45%;
+    flex-basis: 0%;
     text-align: center;
     font-size: 35px;
     cursor: pointer;
-    background-color: white;
+    background-color: rgb(255, 0, 0);
     color: rgb(0, 0, 0);
     font-weight: 700;
-    float: left;
+    flex:auto;
+    
 }
 .clearContext:hover{
     background: rgb(8, 33, 116);
     background: linear-gradient( to bottom, rgb(28, 62, 131), rgba(5, 19, 82, 0.705));
     color: whitesmoke;
+    transition-duration: 2s;
+    flex-grow: 3;
+    
 }
+
 /* .clearContext:hover{
     background: rgb(8, 33, 116);
     background: linear-gradient( to bottom, rgb(28, 62, 131), rgba(5, 19, 82, 0.705));
@@ -145,22 +157,27 @@
   
 } */
 .cleanChecked{
-    width: 45%;
-    margin: auto;
+    flex-basis: 0%;
     text-align: center;
     font-size: 35px;
     cursor: pointer;
-    background-color: white;
+    background-color: rgb(68, 0, 255);
     color: rgb(0, 0, 0);
     font-weight: 700;
-    float: left;
+    flex:auto;
+  
 }
 .cleanChecked:hover{
     background: rgb(8, 33, 116);
     background: linear-gradient( to bottom, rgb(28, 62, 131), rgba(5, 19, 82, 0.705));
     color: whitesmoke;
+    transition-duration: 2s;
+    flex-grow: 3;
+   
+    
 
 }
+
 /* .cleanCheckedtHover{
 
     background: rgb(8, 33, 116);
@@ -211,7 +228,10 @@
 /* .removeBtnDivhvEvnt{
     background-color: rgba(204, 204, 204, 0.562);
 } */
+.removeBtnDiv:active{
 
+    transform: scale(1.05);
+}
 .newList {
 
     float: left;
@@ -280,6 +300,7 @@
     background-color: rgba(255, 255, 255, 0);
     margin-top: 0.5%;
     margin-left: -1%;
+
 }
 
 .writeDiv:hover{
@@ -288,7 +309,10 @@
 /* .writeDivhvEvnt{
     background-color: rgba(204, 204, 204, 0.562);
 } */
+.writeDiv:active{
 
+    transform: scale(1.1);
+}
 .writeTitle{
     margin-left: 10%;
     float: left;
@@ -316,3 +340,6 @@
     background: rgb(136, 156, 221);
     background: linear-gradient( to bottom, rgb(33, 69, 139), rgba(50, 81, 216, 0.705));
 } */
+.listContext{
+    white-space: pre;
+}

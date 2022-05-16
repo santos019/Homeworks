@@ -75,8 +75,8 @@ function paintList (input) { // 노드를 추가하거나 새로고침할 때 �
 
 registerBtn.addEventListener('click', addList)
 function addList (e) { // 리스트를 새로 추가하는 함수
-    if ((e.type === 'keyup') && (e.key !== 'Enter')) { return }
-
+    if (((e.type === 'keyup') && (e.key !== 'Enter')) || ((e.type === 'keyup') && (e.srcElement.className !== 'btnInsert'))) { return }
+    console.log(e.srcElement.className)
     const InsertValue = document.querySelector('.btnInsert').value
     const Inserttext = document.createTextNode(InsertValue)
     const newList = paintList(Inserttext)
@@ -131,15 +131,15 @@ function listEvnt (event) { // 지우기 버튼과 체크, 라벨 버튼 클릭 
         painting(currentIndex)
         const exitBtn = document.querySelector('.moreFooterExit')
         exitBtn.addEventListener('click', allExit)
-        exitBtn.addEventListener('mouseenter', exitHoverEvnt)
-        exitBtn.addEventListener('mouseleave', exitHoverEvnt)
+        // exitBtn.addEventListener('mouseenter', exitHoverEvnt)
+        // exitBtn.addEventListener('mouseleave', exitHoverEvnt)
     }
     localStorage.setItem('list', JSON.stringify(loadingArr))
 }
-function exitHoverEvnt () {
-    const exitBtn = document.querySelector('.moreFooterExit')
-    exitBtn.classList.toggle('moreFooterExitHover')
-}
+// function exitHoverEvnt () {
+//     const exitBtn = document.querySelector('.moreFooterExit')
+//     exitBtn.classList.toggle('moreFooterExitHover')
+// }
 function painting (Index) { // 제목과 내용을 그리는 함수
     output = localStorage.getItem('list')
     loadingArr = JSON.parse(output)
@@ -177,6 +177,7 @@ function textEvnt () { // 목록 진입 이벤트
         loadingArr[currentIndex].context = textDiv.value
         localStorage.setItem('list', JSON.stringify(loadingArr))
         painting(currentIndex)
+        console.log(event)
     }
 }
 
