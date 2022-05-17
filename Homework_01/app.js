@@ -128,7 +128,7 @@ function listEvnt (event) { // 지우기 버튼과 체크, 라벨 버튼 클릭 
         if (writeDiv.classList.contains('writeContextClose')) { writeDiv.classList.remove('writeContextClose') }
         if (textDiv.classList.contains('writingOpen')) { textDiv.classList.remove('writingOpen') }
         writeBtn.classList.add('moreFooterContainerOpen')
-        // anima.classList.add('writeListContainerClick') 이거수정하기
+        anima.classList.add('writeListContainerClick') // 이거수정하기
         currentIndex = loadingArr.findIndex(e => Number(e.nodeId) === Number(deleteIndex))
         painting(currentIndex)
         const exitBtn = document.querySelector('.moreFooterExit')
@@ -190,7 +190,7 @@ function allExit () {
     writeDiv.removeEventListener('click', toWrite)
     if (writeDiv.classList.contains('writeContextClose')) { writeDiv.classList.remove('writeContextClose') }
     if (textDiv.classList.contains('writingOpen')) { textDiv.classList.remove('writingOpen') }
-    // if (anima.classList.contains('writeListContainerClick')) { anima.classList.remove('writeListContainerClick') } //이거 수정하기
+    if (anima.classList.contains('writeListContainerClick')) { anima.classList.remove('writeListContainerClick') } // 이거 수정하기
     window.removeEventListener('click', textEvnt)
     event.target.removeEventListener('click', allExit)
 }
