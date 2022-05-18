@@ -13,10 +13,17 @@ const writeTitle = document.querySelector('.writeTitle')
 const anima = document.querySelector('.writeListContainer')
 let currentIndex = -1
 
-if (localStorage.getItem('list') !== null) {
+start()
+
+function start () { // 웹 페이지 시작, 새로고침시 작동하는 함수
+    const output = localStorage.getItem('list')
+    const loadingArr = JSON.parse(output) || []
+    if ((output === null) || (loadingArr === [])) return
+    const countNumber = loadingArr.length === 0 ? 0 : loadingArr[loadingArr.length - 1].nodeId + 1
+
     for (const i in loadingArr) {
-        const Inserttext = document.createTextNode(loadingArr[i].nodeValue)
-        const newList = paintList(Inserttext)
+        const insertTitle = document.createTextNode(loadingArr[i].nodeValue)
+        const newList = paintList(insertTitle)
         newList.id = loadingArr[i].nodeId
         if (loadingArr[i].nodeCheck) {
             const setChkBox = document.getElementById('check' + countNumber)
@@ -28,21 +35,7 @@ if (localStorage.getItem('list') !== null) {
         }
     }
 }
-someRmBtn.addEventListener('click', chkRemove)
-function chkRemove () { // 체크된 것만 지우는 함수
-    output = localStorage.getItem('list')
-    loadingArr = JSON.parse(output) === null ? [] : JSON.parse(output)
-    loadingArr = loadingArr.filter(detailCheck)
-    localStorage.setItem('list', JSON.stringify(loadingArr))
-    allExit()
-}
-function detailCheck (el) { // chkRemove 함수의 filter callback 함수
-    if (el.nodeCheck) {
-        const removeLi = document.getElementById(el.nodeId)
-        totalList.removeChild(removeLi)
-        return false
-    } else return true
-}
+
 function paintList (input) { // 노드를 추가하거나 새로고침할 때 그리는 함수
     const removeBtnDiv = document.createElement('div')
     const newList = document.createElement('li')
@@ -73,14 +66,32 @@ function paintList (input) { // 노드를 추가하거나 새로고침할 때 �
     return newList
 }
 
+someRmBtn.addEventListener('click', chkRemove)
+function chkRemove () { // 체크된 것만 지우는 함수
+    output = localStorage.getItem('list')
+    loadingArr = JSON.parse(output) === null ? [] : JSON.parse(output)
+    loadingArr = loadingArr.filter(detailCheck)
+    localStorage.setItem('list', JSON.stringify(loadingArr))
+    allExit()
+}
+function detailCheck (el) { // chkRemove 함수의 filter callback 함수
+    if (el.nodeCheck) {
+        const removeLi = document.getElementById(el.nodeId)
+        totalList.removeChild(removeLi)
+        return false
+    } else {
+        return true
+    }
+}
+
 // 문제: 길이에 따라서 조정 필요함 순서가 보장된다는 전제하에 마지막 인덱스 값을 넣어준다.->순서보장안됨// 특정 인덱스에 최대 값을 저장한다. => value에 배열로 저장하면 된다.
 
 registerBtn.addEventListener('click', addList)
 function addList (e) { // 리스트를 새로 추가하는 함수
-    if (((e.type === 'keyup') && (e.key !== 'Enter')) || ((e.type === 'keyup') && (e.srcElement.className !== 'btnInsert'))) { return }
+    if (((e.type === 'keyup') && (e.key !== 'Enter')) || ((e.type === 'keyup') && (e.srcElement.className !== 'btnInsert'))) return
     const InsertValue = document.querySelector('.btnInsert').value
-    const Inserttext = document.createTextNode(InsertValue)
-    const newList = paintList(Inserttext)
+    const insertTitle = document.createTextNode(InsertValue)
+    const newList = paintList(insertTitle)
     newList.id = countNumber
     loadingArr.push({ nodeId: Number(countNumber++), nodeValue: InsertValue, nodeCheck: false, context: '' })
     localStorage.setItem('list', JSON.stringify(loadingArr))
@@ -90,42 +101,52 @@ function addList (e) { // 리스트를 새로 추가하는 함수
 
 totalList.addEventListener('click', listEvnt)
 
+function removeEvnt (parNode, deleteIndex) {
+    const moreUpNode = parNode.parentNode
+    if (currentIndex !== -1 && (Number(loadingArr[currentIndex].nodeId) === Number(deleteIndex))) {
+        allExit()
+    }
+    if (localStorage.getItem('list').length <= 1) {
+        localStorage.clear()
+        loadingArr = []
+    } else {
+        moreUpNode.removeChild(parNode)
+        loadingArr = loadingArr.filter((el) => Number(el.nodeId) !== Number(deleteIndex))
+    }
+}
+function checkEvnt (parNode) {
+    const checkDiv = parNode.childNodes[0]
+    const labelDiv = parNode.childNodes[1]
+    const listDiv = parNode.childNodes[2]
+    checkDiv.checked = !checkDiv.checked
+    labelDiv.classList.toggle('TrueBox')
+    listDiv.style.textDecoration = listDiv.style.textDecoration === 'line-through' ? 'none' : 'line-through'
+    const ans = loadingArr.find(e => Number(e.nodeId) === Number(parNode.id))
+    ans.nodeCheck = (ans !== undefined ? !ans.nodeCheck : ans.nodeCheck)
+}
+
+function writeEvnt (deleteIndex) {
+    if (writeDiv.classList.contains('writeContextClose')) { writeDiv.classList.remove('writeContextClose') }
+    if (textDiv.classList.contains('writingOpen')) { textDiv.classList.remove('writingOpen') }
+    writeBtn.classList.add('moreFooterContainerOpen')
+    anima.classList.add('writeListContainerClick') // 이거수정하기
+    currentIndex = loadingArr.findIndex(e => Number(e.nodeId) === Number(deleteIndex))
+    painting(currentIndex)
+    const exitBtn = document.querySelector('.moreFooterExit')
+    exitBtn.addEventListener('click', allExit)
+}
+
 function listEvnt (event) { // 지우기 버튼과 체크, 라벨 버튼 클릭 이벤트
     output = localStorage.getItem('list')
     loadingArr = JSON.parse(output)
     const parNode = event.target.parentNode
     const deleteIndex = parNode.id
     if (event.target.classList.contains('removeBtnDiv')) {
-        const moreUpNode = parNode.parentNode
-        if (currentIndex !== -1 && (Number(loadingArr[currentIndex].nodeId) === Number(deleteIndex))) {
-            allExit()
-        }
-        if (localStorage.getItem('list').length <= 1) {
-            localStorage.clear()
-            loadingArr = []
-            return
-        } else {
-            moreUpNode.removeChild(parNode)
-            loadingArr = loadingArr.filter((el) => Number(el.nodeId) !== Number(deleteIndex))
-        }
+        removeEvnt(parNode, deleteIndex)
     } else if (event.target.classList.contains('liContextDiv') || event.target.classList.contains('checkLabel')) {
-        const checkDiv = parNode.childNodes[0]
-        const labelDiv = parNode.childNodes[1]
-        const listDiv = parNode.childNodes[2]
-        checkDiv.checked = !checkDiv.checked
-        labelDiv.classList.toggle('TrueBox')
-        listDiv.style.textDecoration = listDiv.style.textDecoration === 'line-through' ? 'none' : 'line-through'
-        const ans = loadingArr.find(e => Number(e.nodeId) === Number(deleteIndex))
-        ans.nodeCheck = (ans !== undefined ? !ans.nodeCheck : ans.nodeCheck)
+        checkEvnt(parNode)
     } else if (event.target.classList.contains('writeDiv')) { // 모달 키는거
-        if (writeDiv.classList.contains('writeContextClose')) { writeDiv.classList.remove('writeContextClose') }
-        if (textDiv.classList.contains('writingOpen')) { textDiv.classList.remove('writingOpen') }
-        writeBtn.classList.add('moreFooterContainerOpen')
-        anima.classList.add('writeListContainerClick') // 이거수정하기
-        currentIndex = loadingArr.findIndex(e => Number(e.nodeId) === Number(deleteIndex))
-        painting(currentIndex)
-        const exitBtn = document.querySelector('.moreFooterExit')
-        exitBtn.addEventListener('click', allExit)
+        writeEvnt(deleteIndex)
     }
     localStorage.setItem('list', JSON.stringify(loadingArr))
 }
@@ -136,14 +157,14 @@ function painting (Index) { // 제목과 내용을 그리는 함수
     if (writeDiv.firstChild !== null) writeDiv.removeChild(writeDiv.firstChild)
     if (writeTitle.firstChild !== null) writeTitle.removeChild(writeTitle.firstChild)
 
-    const Inserttext = document.createTextNode(loadingArr[Index].nodeValue) // text 노드를 교체..???
+    const insertTitle = document.createTextNode(loadingArr[Index].nodeValue) // text 노드를 교체..???
     const InsertContext = document.createTextNode(loadingArr[Index].context)
-    const InserttextP = document.createElement('p')
+    const insertTitleP = document.createElement('p')
     const InsertContextP = document.createElement('p')
 
-    InserttextP.appendChild(Inserttext)
+    insertTitleP.appendChild(insertTitle)
     InsertContextP.appendChild(InsertContext)
-    writeTitle.appendChild(InserttextP)
+    writeTitle.appendChild(insertTitleP)
     writeDiv.appendChild(InsertContextP)
     InsertContextP.className = 'listContext'
     writeDiv.addEventListener('click', toWrite)
@@ -169,7 +190,7 @@ function textEvnt (event) { // 목록 진입 이벤트
     }
 }
 
-function allExit () {
+function allExit (event) {
     if (writeBtn.classList.contains('moreFooterContainerOpen')) {
         writeBtn.classList.remove('moreFooterContainerOpen')
     }
