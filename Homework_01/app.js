@@ -1,7 +1,7 @@
 let output = localStorage.getItem('list')
-let loadingArr = JSON.parse(output) === null ? [] : JSON.parse(output)
+let loadingArr = JSON.parse(output) || []
 let countNumber = loadingArr.length === 0 ? 0 : loadingArr[loadingArr.length - 1].nodeId + 1
-
+// test
 const registerBtn = document.querySelector('.btnContext')
 const totalList = document.querySelector('.ContentsListContainer')
 const removeBtn = document.querySelector('.clearContext')
@@ -12,12 +12,13 @@ const textDiv = document.querySelector('.writing')
 const writeTitle = document.querySelector('.writeTitle')
 const anima = document.querySelector('.writeListContainer')
 let currentIndex = -1
+
 if (localStorage.getItem('list') !== null) {
     for (const i in loadingArr) {
         const Inserttext = document.createTextNode(loadingArr[i].nodeValue)
         const newList = paintList(Inserttext)
         newList.id = loadingArr[i].nodeId
-        if (loadingArr[i].nodeCheck === true) {
+        if (loadingArr[i].nodeCheck) {
             const setChkBox = document.getElementById('check' + countNumber)
             setChkBox.checked = true
             const changeDiv = newList.childNodes[2]
@@ -36,7 +37,7 @@ function chkRemove () { // 체크된 것만 지우는 함수
     allExit()
 }
 function detailCheck (el) { // chkRemove 함수의 filter callback 함수
-    if (el.nodeCheck === true) {
+    if (el.nodeCheck) {
         const removeLi = document.getElementById(el.nodeId)
         totalList.removeChild(removeLi)
         return false
@@ -77,7 +78,6 @@ function paintList (input) { // 노드를 추가하거나 새로고침할 때 �
 registerBtn.addEventListener('click', addList)
 function addList (e) { // 리스트를 새로 추가하는 함수
     if (((e.type === 'keyup') && (e.key !== 'Enter')) || ((e.type === 'keyup') && (e.srcElement.className !== 'btnInsert'))) { return }
-    console.log(e.srcElement.className)
     const InsertValue = document.querySelector('.btnInsert').value
     const Inserttext = document.createTextNode(InsertValue)
     const newList = paintList(Inserttext)
@@ -89,14 +89,7 @@ function addList (e) { // 리스트를 새로 추가하는 함수
 }
 
 totalList.addEventListener('click', listEvnt)
-// totalList.addEventListener('mouseover', hoverEvnt)
-// totalList.addEventListener('mouseout', hoverEvnt)
-// function hoverEvnt (event) {
-//     if (event.target.classList.contains('checkLabel') || event.target.classList.contains('liContextDiv') || event.target.classList.contains('removeBtnDiv') || event.target.classList.contains('writeDiv')) {
-//         const evntArr = event.target.className.split(' ')
-//         event.target.classList.toggle(evntArr[0] + 'hvEvnt')
-//     }
-// }
+
 function listEvnt (event) { // 지우기 버튼과 체크, 라벨 버튼 클릭 이벤트
     output = localStorage.getItem('list')
     loadingArr = JSON.parse(output)
@@ -133,15 +126,10 @@ function listEvnt (event) { // 지우기 버튼과 체크, 라벨 버튼 클릭 
         painting(currentIndex)
         const exitBtn = document.querySelector('.moreFooterExit')
         exitBtn.addEventListener('click', allExit)
-        // exitBtn.addEventListener('mouseenter', exitHoverEvnt)
-        // exitBtn.addEventListener('mouseleave', exitHoverEvnt)
     }
     localStorage.setItem('list', JSON.stringify(loadingArr))
 }
-// function exitHoverEvnt () {
-//     const exitBtn = document.querySelector('.moreFooterExit')
-//     exitBtn.classList.toggle('moreFooterExitHover')
-// }
+
 function painting (Index) { // 제목과 내용을 그리는 함수
     output = localStorage.getItem('list')
     loadingArr = JSON.parse(output)
@@ -152,7 +140,7 @@ function painting (Index) { // 제목과 내용을 그리는 함수
     const InsertContext = document.createTextNode(loadingArr[Index].context)
     const InserttextP = document.createElement('p')
     const InsertContextP = document.createElement('p')
-    // InserttextP.className = 'titleContainer'
+
     InserttextP.appendChild(Inserttext)
     InsertContextP.appendChild(InsertContext)
     writeTitle.appendChild(InserttextP)
@@ -162,8 +150,7 @@ function painting (Index) { // 제목과 내용을 그리는 함수
     textDiv.value = loadingArr[Index].context
 }
 
-function toWrite () {
-    console.log(event.target)
+function toWrite (event) {
     if (event.target.classList.contains('writeContext') || event.target.className === 'listContext') {
         writeDiv.classList.toggle('writeContextClose')
         textDiv.classList.toggle('writingOpen')
@@ -171,7 +158,7 @@ function toWrite () {
     }
 }
 
-function textEvnt () { // 목록 진입 이벤트
+function textEvnt (event) { // 목록 진입 이벤트
     if (!event.target.classList.contains('writing') && !event.target.classList.contains('writeContext') && !(event.target.className === 'writeDiv')) {
         writeDiv.classList.toggle('writeContextClose')
         textDiv.classList.toggle('writingOpen')
@@ -179,7 +166,6 @@ function textEvnt () { // 목록 진입 이벤트
         loadingArr[currentIndex].context = textDiv.value
         localStorage.setItem('list', JSON.stringify(loadingArr))
         painting(currentIndex)
-        console.log(event)
     }
 }
 
@@ -205,19 +191,4 @@ function allRemoveList () {
     localStorage.clear()
 }
 
-// removeBtn.addEventListener('mouseenter', removeBtnChange)
-// removeBtn.addEventListener('mouseleave', removeBtnChange)
-// function removeBtnChange () {
-//     removeBtn.classList.toggle('clearContextHover')
-// }
-// registerBtn.addEventListener('mouseenter', addBtnChange)
-// registerBtn.addEventListener('mouseleave', addBtnChange)
-// function addBtnChange () {
-//     registerBtn.classList.toggle('btnContextChange')
-// }
-// someRmBtn.addEventListener('mouseenter', someRmBtnChange)
-// someRmBtn.addEventListener('mouseleave', someRmBtnChange)
-// function someRmBtnChange () {
-//     someRmBtn.classList.toggle('cleanCheckedtHover')
-// }
 window.addEventListener('keyup', e => addList(e))
