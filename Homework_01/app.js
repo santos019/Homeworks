@@ -190,7 +190,7 @@ function textEvnt (event) { // 목록 진입 이벤트
     }
 }
 
-function allExit (event) {
+function allExit () {
     if (writeBtn.classList.contains('moreFooterContainerOpen')) {
         writeBtn.classList.remove('moreFooterContainerOpen')
     }
@@ -199,7 +199,7 @@ function allExit (event) {
     if (textDiv.classList.contains('writingOpen')) { textDiv.classList.remove('writingOpen') }
     if (anima.classList.contains('writeListContainerClick')) { anima.classList.remove('writeListContainerClick') } // 이거 수정하기
     window.removeEventListener('click', textEvnt)
-    event.target.removeEventListener('click', allExit)
+    this.removeEventListener('click', allExit)
 }
 removeBtn.addEventListener('click', allRemoveList)
 function allRemoveList () {
