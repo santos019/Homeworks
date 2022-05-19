@@ -244,34 +244,49 @@
 }
 .moreFooterContainer{
     width: 0px;
-    
     margin-top: 2%;
     margin-left: 25%;
     height: 0px;
     float: left;
+    transition-duration: 2s;
     
-
 }
 .moreFooterContainerOpen{
     
     height: 50%;
     width: 50%;
-    transition-timing-function: ease-in;
-    transition-duration: 2s;
+    transition-property: width;
+    animation-name: rint;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+
+    /* transition-duration: 2s; */
    
+}
+@keyframes rint {
+
+
+    from {
+        left: 500px
+   }
+   to {
+    left: 0px
+   }
+
 }
 .writeListContainer{ /*이거 손보기~ */
 
     width: 100%;
-    height:0px;
-    /* height:450px; */
-       
-    display: none;
+    height:450px;
+    transition-duration: 2s;
+    visibility: hidden;
 }
+
 .writeListContainerClick{
     transition-duration: 1s;
     height:450px;
-    display: block;
+    visibility:visible;
     box-shadow: 0px 5px 5px 1px gray;
 }
 .writeHead{
@@ -332,9 +347,12 @@
     float: left;
     margin-top: -8%;
     width: 80%;
-    
+    display: none;
     word-wrap: break-word;
     margin-bottom: 2%;
+}
+.writeTitleSee{
+   display: block;
 }
 .moreFooterExit{
     width: 8%;
@@ -350,10 +368,7 @@
     background: rgb(136, 156, 221);
     background: linear-gradient( to bottom, rgb(33, 69, 139), rgba(50, 81, 216, 0.705));
 }
-/* .moreFooterExitHover{
-    background: rgb(136, 156, 221);
-    background: linear-gradient( to bottom, rgb(33, 69, 139), rgba(50, 81, 216, 0.705));
-} */
+
 .listContext{
     white-space: pre;
 }

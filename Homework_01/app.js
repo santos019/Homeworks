@@ -130,6 +130,7 @@ function writeEvnt (deleteIndex) {
     if (textDiv.classList.contains('writingOpen')) { textDiv.classList.remove('writingOpen') }
     writeBtn.classList.add('moreFooterContainerOpen')
     anima.classList.add('writeListContainerClick') // 이거수정하기
+    writeTitle.classList.add('writeTitleSee')
     currentIndex = loadingArr.findIndex(e => Number(e.nodeId) === Number(deleteIndex))
     painting(currentIndex)
     const exitBtn = document.querySelector('.moreFooterExit')
@@ -194,7 +195,10 @@ function allExit () {
     if (writeBtn.classList.contains('moreFooterContainerOpen')) {
         writeBtn.classList.remove('moreFooterContainerOpen')
     }
-    writeDiv.removeEventListener('click', toWrite)
+    if (writeTitle.classList.contains('writeTitleSee')) {
+        writeTitle.classList.remove('writeTitleSee')
+    }
+    // writeTitle.classList.toggle('writeTitleHidden')
     if (writeDiv.classList.contains('writeContextClose')) { writeDiv.classList.remove('writeContextClose') }
     if (textDiv.classList.contains('writingOpen')) { textDiv.classList.remove('writingOpen') }
     if (anima.classList.contains('writeListContainerClick')) { anima.classList.remove('writeListContainerClick') } // 이거 수정하기
