@@ -256,25 +256,9 @@
     height: 50%;
     width: 50%;
     transition-property: width;
-    animation-name: rint;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease;
-
-    /* transition-duration: 2s; */
    
 }
-@keyframes rint {
 
-
-    from {
-        left: 500px
-   }
-   to {
-    left: 0px
-   }
-
-}
 .writeListContainer{ /*이거 손보기~ */
 
     width: 100%;
